@@ -91,13 +91,13 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 					if (empty($v)) {
 					$s .= "<TD> &nbsp; </TD>\n";
 					} else {
-						$s .= "	<TD>".$rs->UserDate($v,"D d, M Y") ."</TD>\n";
+						$s .= "	<TD>".$rs->UserDate($v,"Y-m-d") ."</TD>\n";
 					}
 					break;
 				}
 			case 'T':
 				if (empty($v)) $s .= "<TD> &nbsp; </TD>\n";
-				else $s .= "	<TD>".$rs->UserTimeStamp($v,"D d, M Y, H:i:s") ."</TD>\n";
+				else $s .= "	<TD>".$rs->UserTimeStamp($v,"Y-m-d H:i:s") ."</TD>\n";
 			break;
 
 			case 'N':
