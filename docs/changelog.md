@@ -34,12 +34,23 @@ Older changelogs:
 - mysqli: return fields as ADOFieldObject objects. #175
 - odbc/mssql: fix null strings concatenation issue with SQL server 2012. #148
 - odbc: MetaColumns() can optionally be set to return MetaType for backwards compatibility. #184
+- pdo: allow loading of subclassed recordset. #245
+- pdo: add setConnectionParameter support. #247
 - pdo: fix PHP notice. #248
+- pdo: ADORecordSet class loading. #250
+- pdo/sqlsrv: fix fetchField() method. #251, #234
 - sqlite: _createSuffix is now compatible with parent. #178
 - sqlite: metaIndexes could not locate indexes on uppercase table name. #176
 - sqlite: Fix Metataypes mapping. #177
 - sqlite: driver did not support metaForeignKeys. #179
 - session: add 'httponly' flag to cookie. #190
+- xml: support table 'opt' attribute with mysqli. #267
+
+## 5.20.7 - 20-Sep-2016
+
+- security: Fix SQL injection in PDO drivers qstr() method (CVE-2016-7405). #226
+- oci8po: prevent segfault on PHP 7. #259
+- pdo/mysql: Fix MetaTables() method. #275
 
 ## 5.20.6 - 31-Aug-2016
 
