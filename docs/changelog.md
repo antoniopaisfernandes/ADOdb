@@ -21,6 +21,7 @@ Older changelogs:
 - adodb: Added portable substring method. #219
 - adodb: New helper methods: day(), month(), year(). #225
 - adodb: Remove references to obsolete ADOdb Extension. #270
+- adodb: add Occitan translation. #285
 - adodb-time: Fix 'Q' (quarter of year) format in adodb_date(). #222
 - adodb-time: Add 'W' (week of year) format support in adodb_date(). #223
 - firebird: updated driver, thanks to Lester Caine. #201
@@ -47,6 +48,21 @@ Older changelogs:
 - sqlite: driver did not support metaForeignKeys. #179
 - session: add 'httponly' flag to cookie. #190
 - xml: support table 'opt' attribute with mysqli. #267
+
+## 5.20.9 - 21-Dec-2016
+
+- mssql: fix syntax error in version matching regex #305
+
+## 5.20.8 - 17-Dec-2016
+
+- mssql: support MSSQL Server 2016 and later #294
+- mssql: fix Find() returning no results. #298
+- mssql: fix Sequence name forced to 'adodbseq'. #295, #300
+- mssql: fix GenId() not returning next sequence value with SQL Server 2005/2008. #302
+- mssql: fix drop/alter column with existing default constraint. #290
+- mssql: fix PHP notice in MetaColumns(). #289
+- oci8po: fix inconsistent variable binding in SelectLimit() #288
+- oci8po: fix SelectLimit() with prepared statements #282
 
 ## 5.20.7 - 20-Sep-2016
 
