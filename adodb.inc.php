@@ -1129,9 +1129,9 @@ if (!defined('_ADODB_LAYER')) {
 	/**
 	 * Execute SQL
 	 *
-	 * @param sql		SQL statement to execute, or possibly an array holding prepared statement ($sql[0] will hold sql text)
-	 * @param [inputarr]	holds the input data to bind to. Null elements will be set to null.
-	 * @return RecordSet or false
+	 * @param string $sql                   SQL statement to execute, or possibly an array holding prepared statement ($sql[0] will hold sql text)
+	 * @param bool $inputarr                holds the input data to bind to. Null elements will be set to null.
+	 * @return ADORecordSet|boolean
 	 */
 	function Execute($sql,$inputarr=false) {
 		if ($this->fnExecute) {
@@ -1423,7 +1423,7 @@ if (!defined('_ADODB_LAYER')) {
 	}
 
 	/**
-	* @return # rows affected by UPDATE/DELETE
+	* @return int|false       # rows affected by UPDATE/DELETE
 	*/
 	function Affected_Rows() {
 		if ($this->hasAffectedRows) {
@@ -1444,7 +1444,7 @@ if (!defined('_ADODB_LAYER')) {
 
 
 	/**
-	 * @return  the last error message
+	 * @return string   the last error message
 	 */
 	function ErrorMsg() {
 		if ($this->_errorMsg) {
@@ -1456,7 +1456,7 @@ if (!defined('_ADODB_LAYER')) {
 
 
 	/**
-	 * @return the last error number. Normally 0 means no error.
+	 * @return int       the last error number. Normally 0 means no error.
 	 */
 	function ErrorNo() {
 		return ($this->_errorMsg) ? -1 : 0;
@@ -1476,7 +1476,7 @@ if (!defined('_ADODB_LAYER')) {
 	}
 
 	/**
-	 * @returns an array with the primary key columns in it.
+	 * @returns array|false    an array with the primary key columns in it.
 	 */
 	function MetaPrimaryKeys($table, $owner=false) {
 	// owner not used in base class - see oci8
@@ -1499,7 +1499,7 @@ if (!defined('_ADODB_LAYER')) {
 	}
 
 	/**
-	 * @returns assoc array where keys are tables, and values are foreign keys
+	 * @returns array|false    assoc array where keys are tables, and values are foreign keys
 	 */
 	function MetaForeignKeys($table, $owner=false, $upper=false) {
 		return false;
@@ -3018,11 +3018,11 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 * to the string single-quotes.
 	 * An example is  $db->qstr("Don't bother",magic_quotes_runtime());
 	 *
-	 * @param s			the string to quote
+	 * @param string $s			the string to quote
 	 * @param [magic_quotes]	if $s is GET/POST var, set to get_magic_quotes_gpc().
 	 *				This undoes the stupidity of magic quotes for GPC.
 	 *
-	 * @return  quoted string to be sent back to database
+	 * @return string           quoted string to be sent back to database
 	 */
 	function qstr($s,$magic_quotes=false) {
 		if (!$magic_quotes) {

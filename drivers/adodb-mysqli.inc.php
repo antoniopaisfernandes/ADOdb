@@ -164,7 +164,12 @@ class ADODB_mysqli extends ADOConnection {
 	}
 
 	// do not use $ADODB_COUNTRECS
-	function GetOne($sql,$inputarr=false)
+    /**
+     * @param string $sql
+     * @param bool $inputarr
+     * @return bool|mixed
+     */
+    function GetOne($sql, $inputarr=false)
 	{
 		global $ADODB_GETONE_EOF;
 
@@ -968,7 +973,7 @@ class ADORecordSet_mysqli extends ADORecordSet{
 
 	function _initrs()
 	{
-	global $ADODB_COUNTRECS;
+		global $ADODB_COUNTRECS;
 
 		$this->_numOfRows = $ADODB_COUNTRECS ? @mysqli_num_rows($this->_queryID) : -1;
 		$this->_numOfFields = @mysqli_num_fields($this->_queryID);
