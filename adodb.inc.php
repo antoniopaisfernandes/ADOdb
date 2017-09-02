@@ -1129,11 +1129,11 @@ if (!defined('_ADODB_LAYER')) {
 	/**
 	 * Execute SQL
 	 *
-	 * @param string $sql                   SQL statement to execute, or possibly an array holding prepared statement ($sql[0] will hold sql text)
-	 * @param bool $inputarr                holds the input data to bind to. Null elements will be set to null.
-	 * @return ADORecordSet|boolean
+	 * @param string $sql SQL statement to execute, or possibly an array holding prepared statement ($sql[0] will hold sql text)
+	 * @param false|array $inputarr holds the input data to bind to. Null elements will be set to null.
+	 * @return false|ADORecordSet
 	 */
-	function Execute($sql,$inputarr=false) {
+	public function Execute($sql, $inputarr = false) {
 		if ($this->fnExecute) {
 			$fn = $this->fnExecute;
 			$ret = $fn($this,$sql,$inputarr);
@@ -1271,7 +1271,7 @@ if (!defined('_ADODB_LAYER')) {
 		if ($this->debug) {
 			global $ADODB_INCLUDED_LIB;
 			if (empty($ADODB_INCLUDED_LIB)) {
-				include(ADODB_DIR.'/adodb-lib.inc.php');
+				include_once(ADODB_DIR.'/adodb-lib.inc.php');
 			}
 			$this->_queryID = _adodb_debug_execute($this, $sql,$inputarr);
 		} else {
@@ -1507,8 +1507,8 @@ if (!defined('_ADODB_LAYER')) {
 	/**
 	 * Choose a database to connect to. Many databases do not support this.
 	 *
-	 * @param dbName is the name of the database to select
-	 * @return true or false
+	 * @param string $dbName the name of the database to select
+	 * @return bool
 	 */
 	function SelectDB($dbName) {return false;}
 
@@ -1681,7 +1681,14 @@ if (!defined('_ADODB_LAYER')) {
 		return $arr;
 	}
 
-	function GetAssoc($sql, $inputarr=false,$force_array = false, $first2cols = false) {
+	/**
+	 * @param string $sql
+	 * @param false|array $inputarr
+	 * @param bool $force_array
+	 * @param bool $first2cols
+	 * @return false|array
+	 */
+	public function GetAssoc($sql, $inputarr = false, $force_array = false, $first2cols = false) {
 		global $ADODB_FETCH_MODE;
 
 		$rs = $this->Execute($sql, $inputarr);
@@ -1695,7 +1702,15 @@ if (!defined('_ADODB_LAYER')) {
 		return $rs->GetAssoc($force_array, $first2cols);
 	}
 
-	function CacheGetAssoc($secs2cache, $sql=false, $inputarr=false,$force_array = false, $first2cols = false) {
+	/**
+	 * @param int $secs2cache
+	 * @param false|string $sql
+	 * @param false|array $inputarr
+	 * @param bool $force_array
+	 * @param bool $first2cols
+	 * @return false|array
+	 */
+	public function CacheGetAssoc($secs2cache, $sql = false, $inputarr = false,$force_array = false, $first2cols = false) {
 		if (!is_numeric($secs2cache)) {
 			$first2cols = $force_array;
 			$force_array = $inputarr;
@@ -1704,18 +1719,18 @@ if (!defined('_ADODB_LAYER')) {
 		if (!$rs) {
 			return false;
 		}
-		$arr = $rs->GetAssoc($force_array,$first2cols);
-		return $arr;
+		return $rs->GetAssoc($force_array, $first2cols);
 	}
 
 	/**
-	* Return first element of first row of sql statement. Recordset is disposed
-	* for you.
-	*
-	* @param sql			SQL statement
-	* @param [inputarr]		input bind array
-	*/
-	function GetOne($sql,$inputarr=false) {
+	 * Return first element of first row of sql statement. Recordset is disposed
+	 * for you.
+	 *
+	 * @param string		$sql		SQL statement
+	 * @param array|bool	$inputarr	input bind array
+	 * @return mixed
+	 */
+	public function GetOne($sql, $inputarr=false) {
 		global $ADODB_COUNTRECS,$ADODB_GETONE_EOF;
 
 		$crecs = $ADODB_COUNTRECS;
@@ -1961,7 +1976,7 @@ if (!defined('_ADODB_LAYER')) {
 	function Replace($table, $fieldArray, $keyCol, $autoQuote=false, $has_autoinc=false) {
 		global $ADODB_INCLUDED_LIB;
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 
 		return _adodb_replace($this, $table, $fieldArray, $keyCol, $autoQuote, $has_autoinc);
@@ -2250,7 +2265,7 @@ if (!defined('_ADODB_LAYER')) {
 		// ********************************************************
 
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 		return _adodb_getupdatesql($this,$rs,$arrFields,$forceUpdate,$magicq,$force);
 	}
@@ -2270,7 +2285,7 @@ if (!defined('_ADODB_LAYER')) {
 			$force = $ADODB_FORCE_TYPE;
 		}
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 		return _adodb_getinsertsql($this,$rs,$arrFields,$magicq,$force);
 	}
@@ -3068,7 +3083,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	function PageExecute($sql, $nrows, $page, $inputarr=false, $secs2cache=0) {
 		global $ADODB_INCLUDED_LIB;
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 		if ($this->pageExecuteCountRows) {
 			$rs = _adodb_pageexecute_all_rows($this, $sql, $nrows, $page, $inputarr, $secs2cache);
@@ -3317,7 +3332,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	// DATE AND TIME FUNCTIONS
 	//==============================================================================================
 	if (!defined('ADODB_DATE_VERSION')) {
-		include(ADODB_DIR.'/adodb-time.inc.php');
+		include_once(ADODB_DIR.'/adodb-time.inc.php');
 	}
 
 	//==============================================================================================
@@ -3481,7 +3496,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	{
 		global $ADODB_INCLUDED_LIB;
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 		return _adodb_getmenu($this, $name,$defstr,$blank1stItem,$multiple,
 			$size, $selectAttr,$compareFields0);
@@ -3509,7 +3524,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	{
 		global $ADODB_INCLUDED_LIB;
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 		return _adodb_getmenu_gp($this, $name,$defstr,$blank1stItem,$multiple,
 			$size, $selectAttr,false);
@@ -3612,6 +3627,8 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 */
 	function getAssoc($force_array = false, $first2cols = false)
 	{
+
+		global $ADODB_FETCH_MODE;
 		/*
 		* Insufficient rows to show data
 		*/
@@ -3626,7 +3643,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		}
 
 		$numberOfFields = $this->_numOfFields;
-		$fetchMode      = $this->fetchMode;
+		$fetchMode      = $ADODB_FETCH_MODE;
 
 		if ($fetchMode == ADODB_FETCH_BOTH)
 		{
@@ -3663,7 +3680,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 
 			$myFields = $this->fields;
 
-			if ($this->fetchMode == ADODB_FETCH_BOTH)
+			if ($fetchMode == ADODB_FETCH_BOTH)
 			{
 				/*
 				* extract the associative keys
@@ -4552,7 +4569,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			global $ADODB_INCLUDED_LIB;
 
 			if (empty($ADODB_INCLUDED_LIB)) {
-				include(ADODB_DIR.'/adodb-lib.inc.php');
+				include_once(ADODB_DIR.'/adodb-lib.inc.php');
 			}
 			$hdr = true;
 
@@ -5130,7 +5147,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	function adodb_backtrace($printOrArr=true,$levels=9999,$ishtml=null) {
 		global $ADODB_INCLUDED_LIB;
 		if (empty($ADODB_INCLUDED_LIB)) {
-			include(ADODB_DIR.'/adodb-lib.inc.php');
+			include_once(ADODB_DIR.'/adodb-lib.inc.php');
 		}
 		return _adodb_backtrace($printOrArr,$levels,0,$ishtml);
 	}
