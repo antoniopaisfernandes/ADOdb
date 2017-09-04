@@ -249,8 +249,6 @@ class ADORecordSet implements IteratorAggregate
      */
     function getAssoc($force_array = false, $first2cols = false)
     {
-
-        global $ADODB_FETCH_MODE;
         /*
         * Insufficient rows to show data
         */
@@ -265,7 +263,7 @@ class ADORecordSet implements IteratorAggregate
         }
 
         $numberOfFields = $this->_numOfFields;
-        $fetchMode      = $ADODB_FETCH_MODE;
+        $fetchMode      = $this->fetchMode;
 
         if ($fetchMode == ADODB_FETCH_BOTH)
         {
@@ -302,7 +300,7 @@ class ADORecordSet implements IteratorAggregate
 
             $myFields = $this->fields;
 
-            if ($fetchMode == ADODB_FETCH_BOTH)
+            if ($this->fetchMode == ADODB_FETCH_BOTH)
             {
                 /*
                 * extract the associative keys
